@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" href="../CSS/reset.css" />
+        <link rel="stylesheet" href="../CSS/style.css" />
+        <title>Sign Up</title>
+    </head>
+    <body>
+        <main>
+            <div class="bloco-esquerda"></div>
+            <div class="bloco-direita">
+                <div class="formulario-login">
+                    <h1>Criar conta</h1>
+                    <form id="signUp" onsubmit="signUp(event)">
+                        <div class="container-sign-up">
+                            <input type="text" placeholder="Username" name="nomeUsuario" id="nomeUsuario" required />
+
+                            <input type="password" placeholder="Senha" name="senha" id="senha" required />
+
+                            <input type="password" placeholder="Repetir Senha" name="repetirSenha" id="repetirSenha" required />
+
+                            <button type="submit">Criar conta agora</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <script src="../js/script.js"></script>
+        </main>
+    </body>
+</html>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" href="CSS/reset.css" />
+        <link rel="stylesheet" href="CSS/style.css" />
+        <title>Login</title>
+    </head>
+    <body>
+        <main>
+            <div class="bloco-esquerda"></div>
+            <div class="bloco-direita">
+                <div class="formulario-login">
+                    <h1>Entrar no sistema de recados</h1>
+                    <form id="login" onsubmit="login(event)">
+                        <div class="container-login">
+                            <input type="text" placeholder="Username" name="nomeUsuario" id="nomeUsuario" required />
+
+                            <input type="password" placeholder="Senha" name="senha" id="senha" required />
+
+                            <button type="submit">Entrar</button>
+                        </div>
+                    </form>
+                    <div class="criar-conta"><a href="HTML/sign-up.html">Criar conta</a></div>
+                </div>
+            </div>
+        </main>
+        <script src="js/script.js"></script>
+    </body>
+</html>

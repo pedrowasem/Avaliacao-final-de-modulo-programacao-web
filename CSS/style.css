@@ -1,0 +1,75 @@
+* {
+    font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+}
+.bloco-esquerda,
+.bloco-direita {
+    height: 100%;
+    width: 50%;
+    position: fixed;
+    top: 0;
+}
+.bloco-esquerda {
+    background-image: url(../images/background.jpg);
+    left: 0;
+}
+.bloco-direita {
+    right: 0;
+}
+.formulario-login {
+    position: absolute;
+    bottom: 80px;
+    left: 50%;
+    transform: translate(-50%);
+}
+.formulario-login h1 {
+    text-align: center;
+    font-size: 20px;
+    text-transform: uppercase;
+    color: gray;
+    margin: 20px;
+}
+.container-login input,
+.container-sign-up input {
+    display: inline;
+    margin-bottom: 30px;
+    margin-right: -10px;
+    border: 1px solid lightgray;
+    width: 46%;
+    height: 25px;
+    padding: 15px;
+}
+.container-sign-up input {
+    display: block;
+    margin-top: 30px;
+    margin-bottom: 30px;
+    border: 1px solid lightgray;
+    width: 60%;
+    height: 25px;
+    padding: 15px;
+}
+
+.container-login button,
+.container-sign-up button {
+    width: 40vw;
+    min-width: 200px;
+    height: 50px;
+    color: white;
+    text-transform: uppercase;
+    font-size: 18px;
+    background-color: #614fff;
+    border: 0;
+    border-radius: 5px;
+}
+.criar-conta {
+    position: absolute;
+    display: block;
+    left: 50%;
+    transform: translate(-50%);
+    padding: 5px;
+}
+.criar-conta a {
+    text-decoration: none;
+    font-size: 18px;
+    text-transform: uppercase;
+    color: #614fff;
+}
