@@ -1,68 +1,89 @@
-const recados = [];
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+
 const usuarioAtivo = JSON.parse(localStorage.getItem("usuarioAtivo"));
-const titulo = document.getElementById("titulo");
-const btnLogout = document.getElementById("btn-logout");
 
-btnLogout.addEventListener("click", logout);
-
-titulo.textContent = `Bem vindo ${usuarioAtivo.usuario}, aqui estão os seus recados`;
-
-if (usuarioAtivo.mensagens !== null) {
-    usuarioAtivo.mensagens.forEach((mensagem) => {
-        recados.push(mensagem);
-    });
-    recuperaRecados();
+if (!usuarioAtivo) {
+    alert("Não há nenhum usuario conectado!");
+    window.location.href = "../index.html";
 }
 
-function recuperaRecados() {
-    recados.forEach((recado, index) => {
+document.getElementById("titulo").textContent = `Bem vindo ${usuarioAtivo.usuario}, aqui estão os seus recados`;
+document.getElementById("btn-logout").addEventListener("click", logout);
+
+escreveRecadosArmazenados();
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+
+function logout() {
+    localStorage.removeItem("usuarioAtivo");
+    window.location.href = "../index.html";
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+
+function limpaRecadosDaTela() {
+    const listaDeRecadosEscritos = document.querySelectorAll(".indice");
+    listaDeRecadosEscritos.forEach((recadoEscrito) => {
+        recadoEscrito.parentElement.remove();
+    });
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+
+function escreveRecadosArmazenados() {
+    usuarioAtivo.mensagens.forEach((recado, index) => {
         const novoRecado = document.createElement("tr");
         const tabela = document.querySelector("tbody");
         const criaIndice = document.createElement("td");
-        criaIndice.setAttribute("class", "indice");
         const criaDescricao = document.createElement("td");
         const criaDetalhe = document.createElement("td");
-        const criaBotao = document.createElement("td");
-
+        const criaBotoes = document.createElement("td");
         const botaoApagar = document.createElement("button");
-        botaoApagar.textContent = "Apagar";
-        botaoApagar.setAttribute("class", "apagar");
-        criaBotao.appendChild(botaoApagar);
-        botaoApagar.addEventListener("click", apagar);
-
         const botaoEditar = document.createElement("button");
-        botaoEditar.textContent = "Editar";
-        botaoEditar.setAttribute("class", "editar");
-        criaBotao.appendChild(botaoEditar);
-        botaoEditar.addEventListener("click", editar);
 
+        criaIndice.setAttribute("class", "indice");
+        botaoApagar.setAttribute("class", "apagar");
+        botaoEditar.setAttribute("class", "editar");
+
+        criaIndice.textContent = index + 1;
         criaDescricao.textContent = recado.descricao;
         criaDetalhe.textContent = recado.detalhe;
+        botaoApagar.textContent = "Apagar";
+        botaoEditar.textContent = "Editar";
 
         novoRecado.appendChild(criaIndice);
         novoRecado.appendChild(criaDescricao);
         novoRecado.appendChild(criaDetalhe);
-        novoRecado.appendChild(criaBotao);
+        novoRecado.appendChild(criaBotoes);
+        criaBotoes.appendChild(botaoApagar);
+        criaBotoes.appendChild(botaoEditar);
+
+        botaoApagar.addEventListener("click", apagar);
+        botaoEditar.addEventListener("click", editar);
+
         tabela.appendChild(novoRecado);
-        criaIndice.textContent = index + 1;
     });
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+
 function armazenaRecados() {
-    usuarioAtivo.mensagens = recados;
-
     const listaArmazenada = JSON.parse(localStorage.getItem("listaDeUsuarios"));
-    let indice;
-    listaArmazenada.forEach((usuario, index) => {
-        if (usuario.usuario === usuarioAtivo.usuario) {
-            indice = index;
-        }
-    });
+    const indice = listaArmazenada.findIndex((usuario) => usuario.usuario === usuarioAtivo.usuario);
     listaArmazenada.splice(indice, 1, usuarioAtivo);
-
     localStorage.setItem("usuarioAtivo", JSON.stringify(usuarioAtivo));
     localStorage.setItem("listaDeUsuarios", JSON.stringify(listaArmazenada));
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+
+function limpaEscreveEArmazena() {
+    limpaRecadosDaTela();
+    escreveRecadosArmazenados();
+    armazenaRecados();
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////
 
 function adicionarRecado(event) {
     event.preventDefault();
@@ -71,76 +92,34 @@ function adicionarRecado(event) {
         descricao: form.descricao.value,
         detalhe: form.detalhe.value,
     };
-    recados.push(recado);
-    const novoRecado = document.createElement("tr");
-    const tabela = document.querySelector("tbody");
-    const criaIndice = document.createElement("td");
-    criaIndice.setAttribute("class", "indice");
-    const criaDescricao = document.createElement("td");
-    const criaDetalhe = document.createElement("td");
-    const criaBotao = document.createElement("td");
-
-    const botaoApagar = document.createElement("button");
-    botaoApagar.textContent = "Apagar";
-    botaoApagar.setAttribute("class", "apagar");
-    criaBotao.appendChild(botaoApagar);
-    botaoApagar.addEventListener("click", apagar);
-
-    const botaoEditar = document.createElement("button");
-    botaoEditar.textContent = "Editar";
-    botaoEditar.setAttribute("class", "editar");
-    criaBotao.appendChild(botaoEditar);
-    botaoEditar.addEventListener("click", editar);
-
-    criaDescricao.textContent = recado.descricao;
-    criaDetalhe.textContent = recado.detalhe;
-
-    novoRecado.appendChild(criaIndice);
-    novoRecado.appendChild(criaDescricao);
-    novoRecado.appendChild(criaDetalhe);
-    novoRecado.appendChild(criaBotao);
-    tabela.appendChild(novoRecado);
-    criaIndice.textContent = recados.length;
+    usuarioAtivo.mensagens.push(recado);
+    limpaEscreveEArmazena();
     form.reset();
-
-    armazenaRecados();
 }
 
-function logout() {
-    localStorage.removeItem("usuarioAtivo");
-    window.location.href = "../index.html";
-}
-
-function limpaRecados() {
-    const listaDeRecadosEscritos = document.querySelectorAll(".indice");
-    listaDeRecadosEscritos.forEach((recadoEscrito) => {
-        recadoEscrito.parentElement.remove();
-    });
-}
+/////////////////////////////////////////////////////////////////////////////////////////////////////
 
 function apagar() {
     const indice = Number(this.parentElement.parentElement.querySelector(".indice").textContent) - 1;
-    recados.splice(indice, 1);
-    limpaRecados();
-    recuperaRecados();
-    armazenaRecados();
+    usuarioAtivo.mensagens.splice(indice, 1);
+    limpaEscreveEArmazena();
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////
 
 function editar() {
     const indice = Number(this.parentElement.parentElement.querySelector(".indice").textContent) - 1;
-    const editarRecado = recados[indice];
+    const editarRecado = usuarioAtivo.mensagens[indice];
 
     let editarDescricao = confirm("Você deseja editar a descrição deste recado?");
     if (editarDescricao) {
         editarRecado.descricao = prompt("Edite a descrição da mensagem");
     }
 
-    let editardetalhe = confirm("Você deseja editar a detalhe deste recado?");
+    let editardetalhe = confirm("Você deseja editar o detalhe deste recado?");
     if (editardetalhe) {
         editarRecado.detalhe = prompt("Edite a detalhe da mensagem");
     }
 
-    limpaRecados();
-    recuperaRecados();
-    armazenaRecados();
+    limpaEscreveEArmazena();
 }
