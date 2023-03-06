@@ -10,21 +10,14 @@
     </head>
     <body>
         <main>
-            <div class="bloco-esquerda"></div>
-            <div class="bloco-direita">
-                <div class="formulario-login">
-                    <h1>Entrar no sistema de recados</h1>
-                    <form id="login" onsubmit="login(event)">
-                        <div class="container-login">
-                            <input type="text" placeholder="Username" name="nomeUsuario" id="nomeUsuario" required />
-
-                            <input type="password" placeholder="Senha" name="senha" id="senha" required />
-
-                            <button type="submit">Entrar</button>
-                        </div>
-                    </form>
-                    <div class="criar-conta"><a href="HTML/sign-up.html">Criar conta</a></div>
-                </div>
+            <div class="container">
+                <form id="login" onsubmit="login(event)">
+                    <h1>Lista de Lembretes</h1>
+                    <input type="text" name="username" id="username" placeholder="Username" required />
+                    <input type="password" name="senha" id="senha" placeholder="Senha" required />
+                    <button type="submit" class="botao" id="botaoLogin">Entrar</button>
+                    <button type="button" class="botao" id="botao-cadastrar" onclick="window.location.href='cadastrar.html'">Criar uma conta</button>
+                </form>
             </div>
         </main>
         <script src="js/login.js"></script>
