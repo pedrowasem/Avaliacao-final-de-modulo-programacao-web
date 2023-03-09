@@ -2,7 +2,7 @@ function login(event) {
     event.preventDefault();
     const form = document.getElementById("login");
     const listaArmazenada = JSON.parse(localStorage.getItem("listaDeUsuarios") ?? "[]");
-    if (listaArmazenada === []) {
+    if (listaArmazenada.length === 0) {
         alert("Nenhum usuário cadastrado, por favor, crie uma conta clicando em Criar uma conta");
         form.reset();
         return;
