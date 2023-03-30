@@ -8,10 +8,6 @@
     background-color: var(--bg-dark-mode);
 }
 
-.bg-dark-mode:active {
-    color: var(--bg-light-mode);
-}
-
 .bg-light-mode {
     background-color: var(--bg-light-mode);
 }
@@ -44,10 +40,48 @@
     color: rgba(255, 255, 255, 0.75);
 }
 
-.text-white:focus {
-    color: #3c3c3c !important;
+input:focus {
+    color: var(--bg-dark-mode) !important;
+}
+
+button:focus {
+    border-color: #3b3b3b !important;
+    outline: 0;
+    box-shadow: 0 0 0 0.2rem rgba(0, 0, 0, 0.75) !important;
 }
 
 .text-white:focus::placeholder {
     color: #3c3c3c !important;
+}
+
+.float-button {
+    width: var(--width-float-button);
+    height: 3rem;
+    right: 1.5rem;
+    bottom: 1.5rem;
+}
+
+
+.float-button:hover {
+    border-color: #3b3b3b !important;
+    outline: 0;
+    box-shadow: 0 0 0 0.2rem rgba(0, 0, 0, 0.50) !important;
+}
+
+.apagado {
+    animation-name: apagar;
+    animation-duration: 2s;
+    animation-timing-function: ease-out;
+}
+
+@keyframes apagar {
+    from {
+        opacity: 1;
+        transform: scaleY(1) translateY(0);
+    }
+
+    to {
+        opacity: 0;
+        transform: scaleY(0) translateY(-50%);
+    }
 }
