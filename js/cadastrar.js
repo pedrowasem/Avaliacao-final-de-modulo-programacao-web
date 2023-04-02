@@ -6,6 +6,8 @@ function signup(event) {
         return;
     }
 
+    ////
+
     const listaDeUsuarios = JSON.parse(localStorage.getItem("listaDeUsuarios") ?? "[]");
     const usuarioExiste = listaDeUsuarios.some((usuario) => usuario.username === form.username.value);
     if (usuarioExiste) {

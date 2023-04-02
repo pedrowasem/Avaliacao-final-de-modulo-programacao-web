@@ -15,6 +15,8 @@ function login(event) {
         return;
     }
 
+    /////
+
     localStorage.setItem("usuarioAtivo", JSON.stringify(usuarioCadastrado));
     window.location.href = "lembretes.html";
 }
