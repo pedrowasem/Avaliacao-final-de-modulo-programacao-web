@@ -4,53 +4,58 @@ window.addEventListener("DOMContentLoaded", () => {
     const toggleLocalStorage = JSON.parse(localStorage.getItem("toggle") ?? false);
     if (toggleLocalStorage) {
         toggle.classList.toggle("active");
-        mudaModoPagina();
+        mudaModo(document);
     }
 });
 
 toggle.onclick = function () {
     toggle.classList.toggle("active");
-    mudaModoPagina();
+    mudaModo(document);
 };
 
-function mudaModoPagina() {
+function mudaModo(elemento) {
+    const navbar = elemento.querySelector(".navbar");
     if (toggle.classList.contains("active")) {
-        document.querySelectorAll(".bg-light-mode").forEach((element) => {
+        elemento.querySelectorAll(".bg-light-mode").forEach((element) => {
             element.classList.toggle("bg-dark-mode");
             element.classList.toggle("bg-light-mode");
         });
-        document.querySelector(".navbar").classList.toggle("navbar-dark");
-        document.querySelectorAll(".bi").forEach((element) => {
-            element.classList.toggle("bi-dark");
+        elemento.querySelectorAll(".bi").forEach((element) => {
+            element.classList.add("bi-dark");
         });
-        document.querySelectorAll(".border-dark").forEach((element) => {
+        elemento.querySelectorAll(".border-dark").forEach((element) => {
             element.classList.toggle("border-white");
             element.classList.toggle("border-dark");
         });
-        document.querySelectorAll(".text-dark").forEach((element) => {
+        elemento.querySelectorAll(".text-dark").forEach((element) => {
             element.classList.toggle("text-white");
             element.classList.toggle("text-dark");
         });
         toggle.toggleAttribute("checked");
         localStorage.setItem("toggle", JSON.stringify(true));
+        if (navbar) {
+            navbar.classList.toggle("navbar-dark");
+        }
         return;
     }
-    document.querySelectorAll(".bg-dark-mode").forEach((element) => {
+    elemento.querySelectorAll(".bg-dark-mode").forEach((element) => {
         element.classList.toggle("bg-light-mode");
         element.classList.toggle("bg-dark-mode");
     });
-    document.querySelector(".navbar").classList.toggle("navbar-dark");
-    document.querySelectorAll(".bi").forEach((element) => {
-        element.classList.toggle("bi-dark");
+    elemento.querySelectorAll(".bi").forEach((element) => {
+        element.classList.remove("bi-dark");
     });
-    document.querySelectorAll(".border-white").forEach((element) => {
+    elemento.querySelectorAll(".border-white").forEach((element) => {
         element.classList.toggle("border-dark");
         element.classList.toggle("border-white");
     });
-    document.querySelectorAll(".text-white").forEach((element) => {
+    elemento.querySelectorAll(".text-white").forEach((element) => {
         element.classList.toggle("text-dark");
         element.classList.toggle("text-white");
     });
     toggle.toggleAttribute("checked");
     localStorage.setItem("toggle", JSON.stringify(false));
+    if (navbar) {
+        elemento.querySelector(".navbar").classList.toggle("navbar-dark");
+    }
 }

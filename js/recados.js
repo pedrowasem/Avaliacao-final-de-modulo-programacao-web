@@ -1,6 +1,7 @@
 const linkLogout = document.getElementById("link-logout");
 const formRecado = document.getElementById("form-novo-recado");
 const usuarioAtivo = JSON.parse(localStorage.getItem("usuarioAtivo"));
+const recadosDoUsuario = usuarioAtivo.listaDeRecados;
 
 const row = document.getElementById("lista-de-recados");
 const containerNotificacao = document.getElementById("container-notificacao");
@@ -11,20 +12,22 @@ const modalAtualizar = new bootstrap.Modal("#modal-atualizar");
 
 let idAtualizar = -1;
 
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 if (!usuarioAtivo) {
     alert("Não há nenhum usuario conectado!");
-    window.location.href = "index2.html";
+    window.location.href = "index.html";
 }
 
-document.getElementById("titulo").textContent = `Bem vindo ${usuarioAtivo.nome}`;
+document.getElementById("titulo").textContent = `Olá ${usuarioAtivo.nome}`;
 
 document.addEventListener("DOMContentLoaded", () => {
-    usuarioAtivo.listaDeRecados.forEach((recado) => adicionaRecado(recado));
+    recadosDoUsuario.forEach((recado) => adicionaRecado(recado));
 });
 
 linkLogout.addEventListener("click", () => {
     localStorage.removeItem("usuarioAtivo");
-    window.location.href = "index2.html";
+    window.location.href = "index.html";
 });
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -32,7 +35,6 @@ linkLogout.addEventListener("click", () => {
 formRecado.addEventListener("submit", (ev) => {
     ev.preventDefault();
 
-    // chamar a validação deste formulário
     if (!formRecado.checkValidity()) {
         formRecado.classList.add("was-validated");
         return;
@@ -44,13 +46,14 @@ formRecado.addEventListener("submit", (ev) => {
         descricao: formRecado.descricao.value,
     };
 
-    usuarioAtivo.listaDeRecados.push(recado);
+    recadosDoUsuario.push(recado);
 
     armazenaRecados();
-    formRecado.reset();
     adicionaRecado(recado);
+    formRecado.reset();
     modalRecado.hide();
     formRecado.classList.remove("was-validated");
+    mudaModo(row);
     showAlert("success", "Recado salvo com sucesso!");
 });
 
@@ -71,10 +74,12 @@ function adicionaRecado(recado) {
 
     const cardTitle = document.createElement("h5");
     cardTitle.setAttribute("class", "card-title");
+    cardTitle.setAttribute("id", `title${id}`);
     cardTitle.innerHTML = titulo;
 
     const cardText = document.createElement("p");
     cardText.setAttribute("class", "card-text");
+    cardText.setAttribute("id", `text${id}`);
     cardText.innerHTML = descricao;
 
     const botoes = document.createElement("div");
@@ -84,9 +89,9 @@ function adicionaRecado(recado) {
     buttonEdit.setAttribute("class", "btn bg-light-mode border border-dark border-2 text-dark m-1 me-3");
     buttonEdit.addEventListener("click", () => {
         modalAtualizar.show();
-        atualizaTitulo.value = titulo;
-        atualizaDescricao.value = descricao;
         idAtualizar = id;
+        atualizaTitulo.value = document.getElementById(`title${id}`).innerHTML;
+        atualizaDescricao.value = document.getElementById(`text${id}`).innerHTML;
     });
     buttonEdit.innerHTML = `<i class="bi bi-pencil-square"></i>`;
 
@@ -102,6 +107,7 @@ function adicionaRecado(recado) {
     cardBody.appendChild(cardTitle);
     cardBody.appendChild(cardText);
     cardBody.appendChild(botoes);
+
     botoes.appendChild(buttonEdit);
     botoes.appendChild(buttonDelete);
 
@@ -123,71 +129,46 @@ function armazenaRecados() {
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-// formAtualizar.addEventListener("submit", (ev) => {
-//     ev.preventDefault();
+formAtualizar.addEventListener("submit", (ev) => {
+    ev.preventDefault();
 
-//     // chamar a validação deste formulário
-//     if (!formAtualizar.checkValidity()) {
-//         formAtualizar.classList.add("was-validated");
-//         return;
-//     }
+    if (!formAtualizar.checkValidity()) {
+        formAtualizar.classList.add("was-validated");
+        return;
+    }
 
-//     // some => desconsiderar o id que esta sendo atualizado
-//     const exist = listaContatos.some((contato) => {
-//         if (contato.id === idAtualizar) {
-//             return false;
-//         }
+    const indice = recadosDoUsuario.findIndex((recado) => recado.id === idAtualizar);
+    recadosDoUsuario[indice].titulo = atualizaTitulo.value;
+    recadosDoUsuario[indice].descricao = atualizaDescricao.value;
+    armazenaRecados();
 
-//         return contato.phone === phoneUpdate.value;
-//     });
+    const cardTitle = document.querySelector(`#id${idAtualizar} .card-title`);
+    cardTitle.innerHTML = atualizaTitulo.value;
 
-//     if (exist) {
-//         modalAtualizar.hide();
-//         showAlert("danger", "Esse número já esta salvo como outro contato!");
-//         return;
-//     }
+    const cardText = document.querySelector(`#id${idAtualizar} .card-text`);
+    cardText.innerHTML = atualizaDescricao.value;
 
-//     // ATUALIZAR A LISTA LOCAL
-//     const indiceUpdate = listaContatos.findIndex((contato) => contato.id === idAtualizar);
-//     listaContatos[indiceUpdate].name = nameUpdate.value;
-//     listaContatos[indiceUpdate].phone = phoneUpdate.value;
-
-//     // ATUALIZAR O LOCASTORAGE
-//     localStorage.setItem("contacts", JSON.stringify(listaContatos));
-
-//     // ATUALIZAR O ELEMENTO NA DOM
-//     const cardTitle = document.querySelector(`#contato-${idAtualizar} .card-title`);
-//     cardTitle.innerHTML = nameUpdate.value;
-
-//     const cardText = document.querySelector(`#contato-${idAtualizar} .card-text`);
-//     cardText.innerHTML = phoneUpdate.value;
-
-//     modalAtualizar.hide();
-//     showAlert("success", "Contato atualizado com sucesso! 👌");
-//     idAtualizar = -1;
-//     formAtualizar.classList.remove("was-validated");
-// });
+    modalAtualizar.hide();
+    showAlert("success", "Recado atualizado com sucesso!");
+    idAtualizar = -1;
+    formAtualizar.classList.remove("was-validated");
+});
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 function apagar(idRecado) {
-    // EXCLUIR DA LISTA DE CONTATOS LOCAL
-    const indice = usuarioAtivo.listaDeRecados.findIndex((recado) => recado.id === idRecado);
-    usuarioAtivo.listaDeRecados.splice(indice, 1);
-
-    // ATUALIZAR O LOCALSTORAGE
-    localStorage.setItem("usuarioAtivo", JSON.stringify(usuarioAtivo.listaDeRecados));
+    const indice = recadosDoUsuario.findIndex((recado) => recado.id === idRecado);
+    recadosDoUsuario.splice(indice, 1);
     armazenaRecados();
 
-    // EXCLUIR O COL DA DOM
     const col = document.getElementById(`id${idRecado}`);
     col.classList.add("apagado");
-    setTimeout(() => {
+    col.addEventListener("animationend", () => {
         col.remove();
-    }, 2000);
+    });
 
     modalApagar.hide();
-    showAlert("success", "Contato deletado com sucesso! 👌");
+    showAlert("success", "Recado apagado com sucesso!");
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -8,7 +8,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
-    <link rel="stylesheet" href="./CSS/style2.css">
+    <link rel="stylesheet" href="./CSS/style.css">
     <title>Login</title>
 </head>
 
@@ -28,17 +28,17 @@
                                 aria-expanded="false" aria-label="Toggle navigation">
                                 <span class="navbar-toggler-icon"></span>
                             </button>
-                            <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                            <div class="collapse navbar-collapse justify-content-lg-end" id="navbarNavDropdown">
                                 <ul class="navbar-nav align-items-end flex-row justify-content-between">
                                     <li class="nav-item">
-                                        <a class="nav-link active" aria-current="page" href="index2.html">Entrar</a>
+                                        <a class="nav-link" aria-current="page" href="index.html">Entrar</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link" data-bs-toggle="modal"
+                                        <a class="nav-link disabled" data-bs-toggle="modal"
                                             data-bs-target="#modal-cadastro-usuario">Cadastrar</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link" id="link-logout" href="#">Logout</a>
+                                        <a class="nav-link active" id="link-logout">Logout</a>
                                     </li>
                                     <li class="nav-item form-switch p-0 py-2">
                                         <i class="bi bi-brightness-high-fill"></i>
@@ -146,7 +146,7 @@
                             <button type="button" class="btn-close" data-bs-dismiss="modal"
                                 aria-label="Fechar"></button>
                         </div>
-                        <form id="form-atualizar" class="needs-validation" novalidate>
+                        <form id="formAtualizar" class="needs-validation" novalidate>
                             <div class="modal-body">
                                 <div class="mb-3">
                                     <label for="titulo" class="form-label">Título</label>
@@ -184,7 +184,6 @@
 
             <!-- TOAST PARA LOGIN E CRIAÇÃO DE USUÁRIO -->
             <div class="toast-container position-fixed top-0 end-0 p-3" id="container-notificacao">
-                <!-- children[0] -->
             </div>
 
 
